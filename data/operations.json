@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "operationAmount": {
+      "amount": "100.00",
+      "currency": { "code": "USD" }
+    }
+  }
+]
+
