@@ -36,10 +36,11 @@ def convert_currency(transaction: Dict[str, Any]) -> float:
         if currency_code not in ("USD", "EUR"):
             return amount
 
-        if not API_KEY:
+        api_key = os.getenv("EXCHANGE_API_KEY")
+        if not api_key or api_key == "your_api_key_here":
             return amount
 
-        headers = {"apikey": API_KEY}
+        headers = {"apikey": api_key}
         params = {"base": currency_code, "symbols": "RUB"}
 
         response = requests.get(BASE_URL, headers=headers, params=params, timeout=10)

@@ -1,31 +1,51 @@
-def get_mask_card_number(card_number: int) -> str:
-    """
-    Принимает номер карты в виде числа и возвращает маску.
+import logging
+import os
 
-    Формат: XXXX XX** **** XXXX
+# Создаём папку для логов, если её нет
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
 
-    Пример:
-    get_mask_card_number(7000792289606361)
-    '7000 79** **** 6361'
-    """
+logger_masks = logging.getLogger('masks')
+logger_masks.setLevel(logging.DEBUG)
+
+file_handler_masks = logging.FileHandler(os.path.join(LOG_DIR, 'masks.log'), mode='w', encoding='utf-8')
+file_handler_masks.setLevel(logging.DEBUG)
+
+file_formatter_masks = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler_masks.setFormatter(file_formatter_masks)
+
+logger_masks.addHandler(file_handler_masks)
+
+
+def get_mask_card_number(card_number: str) -> str:
+    logger_masks.debug(f"Попытка маскирования номера карты: {card_number}")
+
+    if not card_number:
+        logger_masks.error("Передана пустая строка")
+        return ""
+
     card_str = str(card_number)
-    return f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
+    if len(card_str) == 0:
+        logger_masks.error("Номер карты пуст после преобразования в строку")
+        return ""
+
+    masked = f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
+    logger_masks.info(f"Номер карты успешно замаскирован: {masked}")
+    return masked
 
 
-def get_mask_account(account_number: int) -> str:
-    """
-    Принимает номер счета в виде числа и возвращает маску.
+def get_mask_account(account_number: str) -> str:
+    logger_masks.debug(f"Попытка маскирования номера счёта: {account_number}")
 
-    Формат: **XXXX
+    if not account_number:
+        logger_masks.error("Передана пустая строка")
+        return ""
 
-    Пример:
-    get_mask_account(73654108430135874305)
-    '**4305'
-    """
     account_str = str(account_number)
-    return f"**{account_str[-4:]}"
+    if len(account_str) == 0:
+        logger_masks.error("Номер счёта пуст после преобразования в строку")
+        return ""
 
-
-if __name__ == "__main__":
-    print(get_mask_card_number(7000792289606361))
-    print(get_mask_account(73654108430135874305))
+    masked = f"**{account_str[-4:]}"
+    logger_masks.info(f"Номер счёта успешно замаскирован: {masked}")
+    return masked
