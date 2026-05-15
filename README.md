@@ -117,6 +117,35 @@ EXCHANGE_API_KEY=ваш_ключ
 ### Обработка (processing.py)
 Функции для фильтрации и сортировки транзакций.
 
+## Работа с файлами
 
+Модуль `file_reader` предоставляет функции для чтения финансовых транзакций из разных форматов.
+
+- `read_csv_transactions(file_path)` — чтение CSV-файла
+- `read_excel_transactions(file_path)` — чтение Excel-файла
+
+Обе функции возвращают список словарей с данными транзакций. В случае ошибки (файл не найден, пустой файл, ошибка парсинга) возвращается пустой список.
+
+## Установка зависимостей
+
+Убедитесь, что установлены необходимые библиотеки:
+```bash
+pip install pandas openpyxl pytest pytest-cv flake8 mypy isort
+```
+
+## Тестирование
+Запуск тестов:
+pytest tests/ -v
+
+Покрытие кода:
+pytest tests/ --cov=src --cov-report=term
+
+## 🚀 Шаг 8. Коммит, пуш и PR
+
+```bash
+git add .
+git commit -m "feat: add CSV and Excel file readers with tests"
+git push origin feature/file-readers
+```
 
 
